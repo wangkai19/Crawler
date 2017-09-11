@@ -4,10 +4,14 @@ import re
 import urlparse
 
 #use urllib2 download html by a url
-def download(url,user_agent = 'QiaoBa',num_retries = 2):
+def download(url,user_agent = 'QiaoBa',num_retries = 2,proxy = None):
     print 'Downloading:',url
     headers = {'User_agent':user_agent}
     requests = urllib2.Request(url,headers = headers)
+    opener = urllib2.build_opener()
+    if proxy:
+        proxy_params = {urlparse.urlparse(url).scheme:proxy}
+        opener.add_handler(urllib2.ProxyHandler(proxy_params))
     try:
         html = urllib2.urlopen(requests).read()
     except urllib2.URLError as e:
@@ -23,6 +27,7 @@ def get_links(html):
     webpage_regex = re.compile('<a[^>]+href=["\'](.*?)["\']',re.IGNORECASE)
     return webpage_regex.findall(html)
 
+#begin to craw
 def link_crawler(seed_url,link_regex):
     crawl_queue = [seed_url]
     #keep track which URL's have seen before
