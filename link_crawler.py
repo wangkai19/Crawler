@@ -44,4 +44,4 @@ def link_crawler(seed_url,link_regex):
                     seen.add(link)
                     crawl_queue.append(link)
 
-link_crawler('http://example.webscraping.com','/(places/default/view|places/default/index)')
+#link_crawler('http://example.webscraping.com','/(places/default/view|places/default/index)')
